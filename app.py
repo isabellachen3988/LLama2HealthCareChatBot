@@ -1,11 +1,11 @@
 import streamlit as st
 from streamlit_chat import message
 from langchain.chains import ConversationalRetrievalChain
-from langchain.document_loaders import PyPDFLoader, DirectoryLoader
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.llms import CTransformers
+from langchain_community.document_loaders import PyPDFLoader, DirectoryLoader
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.llms import CTransformers
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import FAISS
+from langchain_community.vectorstores import FAISS
 from langchain.memory import ConversationBufferMemory
 
 #load the pdf files from the path
@@ -35,7 +35,7 @@ chain = ConversationalRetrievalChain.from_llm(llm=llm,chain_type='stuff',
 
 st.title("HealthCare ChatBot 🧑🏽‍⚕️")
 def conversation_chat(query):
-    result = chain({"question": query, "chat_history": st.session_state['history']})
+    result = chain.invoke({"question": query, "chat_history": st.session_state['history']})
     st.session_state['history'].append((query, result["answer"]))
     return result["answer"]
 
